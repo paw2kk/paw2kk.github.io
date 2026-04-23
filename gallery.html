@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tech Community — Galeri Multimedia</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="./index.html" class="navbar-brand">
+      <div class="brand-icon">⚡</div>
+      <span class="brand-text">Tech<span>Community</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="./index.html">Beranda</a></li>
+      <li><a href="./form.html">Daftar</a></li>
+      <li><a href="./gallery.html" class="active">Galeri</a></li>
+    </ul>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main>
+
+    <!-- HEADER -->
+    <div class="gallery-header">
+      <div class="hero-badge">🎬 Galeri Multimedia</div>
+      <h1>Konten <span class="gradient-text">Inspiratif</span></h1>
+      <p style="color:var(--muted);max-width:480px;margin:0.75rem auto 0;">
+        Koleksi gambar, video, dan audio pilihan dari aktivitas Tech Community.
+      </p>
+    </div>
+
+    <!-- MEDIA GRID -->
+    <div class="media-grid">
+
+      <!-- ===== GAMBAR GALLERY ===== -->
+      <div class="media-card">
+        <div class="media-card-header">
+          <h3><span class="icon">🖼️</span> Galeri Foto</h3>
+          <button class="btn btn-outline" onclick="showImageInfo()" style="font-size:0.75rem;padding:5px 12px;">
+            ℹ️ Info
+          </button>
+        </div>
+        <div class="media-card-body">
+          <img
+            id="main-image"
+            class="img-display"
+            src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&q=80"
+            alt="Tech Community - Coding Session"
+            onerror="this.src='https://placehold.co/800x400/111827/00d4ff?text=Tech+Community'"
+          />
+          <div style="margin-top:0.75rem;">
+            <p id="img-caption" style="font-size:0.82rem;color:var(--muted);font-family:var(--font-mono);">
+              📸 Workshop Coding — Sesi Intensif Web Development
+            </p>
+          </div>
+          <div class="img-controls" style="margin-top:0.75rem;flex-wrap:wrap;gap:8px;">
+            <button class="btn btn-outline" onclick="prevImage()" style="font-size:0.78rem;padding:7px 14px;">← Prev</button>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <button class="img-dot active" onclick="goToImage(0)" id="dot-0"></button>
+              <button class="img-dot" onclick="goToImage(1)" id="dot-1"></button>
+              <button class="img-dot" onclick="goToImage(2)" id="dot-2"></button>
+              <button class="img-dot" onclick="goToImage(3)" id="dot-3"></button>
+            </div>
+            <button class="btn btn-outline" onclick="nextImage()" style="font-size:0.78rem;padding:7px 14px;">Next →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== AUDIO PLAYER ===== -->
+      <div class="media-card">
+        <div class="media-card-header">
+          <h3><span class="icon">🎵</span> Audio Player</h3>
+          <span class="badge badge-green" id="audio-status">● Siap</span>
+        </div>
+        <div class="media-card-body">
+          <div class="audio-player">
+
+            <div class="audio-info">
+              <div class="audio-thumb" id="audio-thumb">🎵</div>
+              <div>
+                <div class="audio-title" id="audio-title">Lofi Study Beats</div>
+                <div class="audio-artist">Tech Community Playlist</div>
+              </div>
+            </div>
+
+            <!-- Audio element (menggunakan sumber publik/royalty-free) -->
+            <audio id="audio-player" preload="auto">
+              <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg" />
+              Browser Anda tidak mendukung tag audio.
+            </audio>
+
+            <!-- Progress bar -->
+            <div class="audio-progress" style="margin-bottom:0.75rem;" onclick="seekAudio(event)">
+              <div class="audio-progress-fill" id="audio-fill"></div>
+            </div>
+
+            <!-- Controls -->
+            <div class="audio-controls">
+              <button class="btn-icon" onclick="prevTrack()" title="Sebelumnya">⏮</button>
+              <button class="btn-icon" id="play-btn" onclick="togglePlay()" title="Play/Pause">▶</button>
+              <button class="btn-icon" onclick="nextTrack()" title="Berikutnya">⏭</button>
+
+              <span class="audio-time" id="audio-time">0:00 / 0:00</span>
+
+              <div class="volume-control" style="margin-left:auto;">
+                <span style="font-size:0.85rem;" id="vol-icon">🔊</span>
+                <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="0.7"
+                       oninput="setVolume(this.value)" />
+              </div>
+            </div>
+
+            <!-- Track list -->
+            <div style="margin-top:1rem;border-top:1px solid var(--border);padding-top:0.75rem;">
+              <p style="font-family:var(--font-mono);font-size:0.7rem;color:var(--muted);margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:0.8px;">Daftar Lagu</p>
+              <div id="track-list"></div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== VIDEO YOUTUBE ===== -->
+      <div class="media-card full-width">
+        <div class="media-card-header">
+          <h3><span class="icon">📺</span> Video — Tech Talk</h3>
+          <div style="display:flex;gap:8px;">
+            <button class="btn btn-outline" onclick="changeVideo()" style="font-size:0.75rem;padding:5px 12px;">
+              🔄 Ganti Video
+            </button>
+            <button class="btn btn-outline" onclick="showVideoInfo()" style="font-size:0.75rem;padding:5px 12px;">
+              ℹ️ Info
+            </button>
+          </div>
+        </div>
+        <div class="media-card-body">
+          <div style="margin-bottom:0.75rem;">
+            <p id="video-title" style="font-weight:700;font-size:1rem;">Intro to Web Development — Full Course for Beginners</p>
+            <p style="color:var(--muted);font-size:0.82rem;font-family:var(--font-mono);">📺 freeCodeCamp.org · YouTube</p>
+          </div>
+          <div class="video-wrapper">
+            <iframe
+              id="yt-iframe"
+              src="https://www.youtube.com/embed/mU6anWqZJcc?rel=0&modestbranding=1"
+              title="Tech Talk Video"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          </div>
+          <div style="margin-top:1rem;display:flex;gap:0.75rem;flex-wrap:wrap;">
+            <span class="badge badge-blue">🎓 Tutorial</span>
+            <span class="badge badge-green">🌐 Web Dev</span>
+            <span class="badge badge-purple">⏱ 4+ jam</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end .media-grid -->
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 <a href="./index.html">Tech Community</a> — Galeri Multimedia</p>
+  </footer>
+
+  <script>
+    // ============================================================
+    // IMAGE GALLERY — Array gambar + interaksi
+    // ============================================================
+    const IMAGES = [
+      {
+        src: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&q=80",
+        caption: "📸 Workshop Coding — Sesi Intensif Web Development",
+        alt: "Laptop dengan code"
+      },
+      {
+        src: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80",
+        caption: "🤝 Sesi Kolaborasi — Diskusi Tim Tech Community",
+        alt: "Tim diskusi"
+      },
+      {
+        src: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&q=80",
+        caption: "💻 Hackathon 2024 — 48 Jam Penuh Inovasi",
+        alt: "Hackathon"
+      },
+      {
+        src: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&q=80",
+        caption: "🚀 Learning Session — Belajar Coding Bareng",
+        alt: "Belajar coding"
+      },
+    ];
+
+    let currentImg = 0;
+
+    function renderImage(idx) {
+      const img = document.getElementById("main-image");
+      const caption = document.getElementById("img-caption");
+
+      img.style.opacity = "0";
+      setTimeout(() => {
+        img.src = IMAGES[idx].src;
+        img.alt = IMAGES[idx].alt;
+        caption.textContent = IMAGES[idx].caption;
+        img.style.opacity = "1";
+      }, 200);
+
+      // Update dots
+      document.querySelectorAll(".img-dot").forEach((d, i) => {
+        d.classList.toggle("active", i === idx);
+      });
+    }
+
+    function nextImage() {
+      currentImg = (currentImg + 1) % IMAGES.length;
+      renderImage(currentImg);
+    }
+
+    function prevImage() {
+      currentImg = (currentImg - 1 + IMAGES.length) % IMAGES.length;
+      renderImage(currentImg);
+    }
+
+    function goToImage(idx) {
+      currentImg = idx;
+      renderImage(currentImg);
+    }
+
+    function showImageInfo() {
+      alert(
+        `🖼️ Galeri Foto Tech Community\n\n` +
+        `Total foto  : ${IMAGES.length} gambar\n` +
+        `Foto aktif  : ${currentImg + 1} — "${IMAGES[currentImg].caption}"\n` +
+        `Sumber      : Unsplash (royalty-free)\n\n` +
+        `Gunakan tombol Prev/Next atau klik dot untuk berpindah gambar.`
+      );
+    }
+
+    // Auto-slide setiap 6 detik
+    setInterval(nextImage, 6000);
+
+
+    // ============================================================
+    // AUDIO PLAYER — Interaksi lengkap
+    // ============================================================
+    const TRACKS = [
+      { title: "Lofi Study Beats",   artist: "Tech Community", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", emoji: "🎵" },
+      { title: "Chill Coding Vibes", artist: "Lo-fi Session",  src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3", emoji: "💻" },
+      { title: "Focus Flow",         artist: "Deep Work Mix",  src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3", emoji: "🎧" },
+    ];
+
+    let currentTrack = 0;
+    let isPlaying = false;
+
+    const audio = document.getElementById("audio-player");
+
+    // Render track list
+    function renderTrackList() {
+      const el = document.getElementById("track-list");
+      el.innerHTML = TRACKS.map((t, i) => `
+        <div onclick="loadTrack(${i})" style="
+          display:flex;align-items:center;gap:10px;
+          padding:6px 8px;border-radius:6px;cursor:pointer;
+          background:${i === currentTrack ? 'rgba(0,212,255,0.08)' : 'transparent'};
+          border:1px solid ${i === currentTrack ? 'rgba(0,212,255,0.2)' : 'transparent'};
+          transition:all 0.2s;margin-bottom:4px;
+        ">
+          <span style="font-size:1rem;">${t.emoji}</span>
+          <div style="flex:1;">
+            <div style="font-size:0.82rem;font-weight:${i === currentTrack ? '700' : '400'};color:${i === currentTrack ? 'var(--accent)' : 'var(--text)'};">${t.title}</div>
+            <div style="font-size:0.7rem;color:var(--muted);font-family:var(--font-mono);">${t.artist}</div>
+          </div>
+          ${i === currentTrack && isPlaying ? '<span style="color:var(--accent);font-size:0.7rem;font-family:var(--font-mono);">▶ NOW</span>' : ''}
+        </div>
+      `).join("");
+    }
+
+    function loadTrack(idx, autoPlay = false) {
+      currentTrack = idx;
+      const t = TRACKS[idx];
+      audio.src = t.src;
+      document.getElementById("audio-title").textContent = t.title;
+      document.getElementById("audio-thumb").textContent = t.emoji;
+      document.getElementById("audio-fill").style.width = "0%";
+      document.getElementById("audio-time").textContent = "0:00 / 0:00";
+
+      if (autoPlay && isPlaying) {
+        audio.play().catch(() => {});
+      } else {
+        isPlaying = false;
+        updatePlayBtn();
+      }
+      renderTrackList();
+    }
+
+    function togglePlay() {
+      if (!audio.src || audio.src === window.location.href) {
+        alert("⚠️ Tidak ada audio yang dimuat. Pilih lagu dari daftar.");
+        return;
+      }
+      if (isPlaying) {
+        audio.pause();
+        isPlaying = false;
+        document.getElementById("audio-status").textContent = "⏸ Dijeda";
+        document.getElementById("audio-status").className = "badge badge-yellow";
+      } else {
+        audio.play().then(() => {
+          isPlaying = true;
+          document.getElementById("audio-status").textContent = "▶ Memutar";
+          document.getElementById("audio-status").className = "badge badge-green";
+        }).catch(e => {
+          alert("⚠️ Audio tidak dapat diputar.\nPastikan koneksi internet aktif, lalu coba lagi.");
+        });
+      }
+      updatePlayBtn();
+      renderTrackList();
+    }
+
+    function updatePlayBtn() {
+      document.getElementById("play-btn").textContent = isPlaying ? "⏸" : "▶";
+      document.getElementById("play-btn").classList.toggle("active", isPlaying);
+    }
+
+    function nextTrack() {
+      loadTrack((currentTrack + 1) % TRACKS.length, true);
+    }
+
+    function prevTrack() {
+      loadTrack((currentTrack - 1 + TRACKS.length) % TRACKS.length, true);
+    }
+
+    function setVolume(val) {
+      audio.volume = val;
+      const icon = document.getElementById("vol-icon");
+      if (val == 0)    icon.textContent = "🔇";
+      else if (val < 0.4) icon.textContent = "🔉";
+      else             icon.textContent = "🔊";
+    }
+
+    function seekAudio(e) {
+      const bar = e.currentTarget;
+      const ratio = e.offsetX / bar.offsetWidth;
+      if (audio.duration) {
+        audio.currentTime = ratio * audio.duration;
+      }
+    }
+
+    function formatTime(sec) {
+      if (isNaN(sec)) return "0:00";
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60);
+      return `${m}:${s.toString().padStart(2,"0")}`;
+    }
+
+    // Update progress setiap detik
+    audio.addEventListener("timeupdate", () => {
+      if (audio.duration) {
+        const pct = (audio.currentTime / audio.duration) * 100;
+        document.getElementById("audio-fill").style.width = pct + "%";
+        document.getElementById("audio-time").textContent =
+          `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
+      }
+    });
+
+    // Auto play next track saat selesai
+    audio.addEventListener("ended", () => {
+      isPlaying = false;
+      nextTrack();
+      if (isPlaying !== false) {
+        audio.play().catch(() => {});
+        isPlaying = true;
+        updatePlayBtn();
+      }
+    });
+
+    // Set volume awal
+    audio.volume = 0.7;
+
+
+    // ============================================================
+    // VIDEO — Array & ganti video
+    // ============================================================
+    const VIDEOS = [
+      {
+        id: "mU6anWqZJcc",
+        title: "Intro to Web Development — Full Course for Beginners",
+        channel: "freeCodeCamp.org · YouTube"
+      },
+      {
+        id: "PkZNo7MFNFg",
+        title: "Learn JavaScript — Full Course for Beginners",
+        channel: "freeCodeCamp.org · YouTube"
+      },
+      {
+        id: "rfscVS0vtbw",
+        title: "Learn CSS in 20 Minutes",
+        channel: "Web Dev Simplified · YouTube"
+      },
+    ];
+
+    let currentVideo = 0;
+
+    function changeVideo() {
+      currentVideo = (currentVideo + 1) % VIDEOS.length;
+      const v = VIDEOS[currentVideo];
+      document.getElementById("yt-iframe").src =
+        `https://www.youtube.com/embed/${v.id}?rel=0&modestbranding=1`;
+      document.getElementById("video-title").textContent = v.title;
+
+      showToast(`🎬 Video diubah ke: "${v.title.substring(0,40)}..."`);
+    }
+
+    function showVideoInfo() {
+      const v = VIDEOS[currentVideo];
+      alert(
+        `📺 Info Video\n\n` +
+        `Judul   : ${v.title}\n` +
+        `Channel : ${v.channel}\n` +
+        `Sumber  : YouTube (via iframe embed)\n\n` +
+        `Klik "Ganti Video" untuk melihat video berikutnya (${VIDEOS.length} video tersedia).`
+      );
+    }
+
+
+    // ============================================================
+    // TOAST NOTIFICATION
+    // ============================================================
+    function showToast(msg) {
+      const existing = document.querySelector(".toast");
+      if (existing) existing.remove();
+
+      const toast = document.createElement("div");
+      toast.className = "toast";
+      toast.innerHTML = `<span>✓</span> ${msg}`;
+      document.body.appendChild(toast);
+
+      setTimeout(() => {
+        if (toast.parentNode) toast.remove();
+      }, 3000);
+    }
+
+
+    // ============================================================
+    // INISIALISASI
+    // ============================================================
+    renderTrackList();
+    renderImage(0);
+  </script>
+
+</body>
+</html>

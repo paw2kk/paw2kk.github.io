@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tech Community — Beranda</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="./index.html" class="navbar-brand">
+      <div class="brand-icon">⚡</div>
+      <span class="brand-text">Tech<span>Community</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="./index.html" class="active">Beranda</a></li>
+      <li><a href="./form.html">Daftar</a></li>
+      <li><a href="./gallery.html">Galeri</a></li>
+    </ul>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-badge">● Live & Open Community</div>
+      <h1>Selamat Datang di<br><span class="gradient-text">Tech Community</span></h1>
+      <p class="hero-desc">
+        Komunitas teknologi yang menghubungkan developer, desainer, dan inovator
+        untuk berbagi ilmu, berkolaborasi, dan tumbuh bersama.
+      </p>
+      <div class="hero-actions">
+        <a href="./form.html" class="btn btn-primary">⚡ Bergabung Sekarang</a>
+        <a href="./gallery.html" class="btn btn-outline">🎬 Lihat Galeri</a>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <div class="stats-row" id="stats-row">
+      <div class="stat-card">
+        <div class="stat-number" id="stat-members">—</div>
+        <div class="stat-label">Total Anggota</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">12+</div>
+        <div class="stat-label">Event per Tahun</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">6</div>
+        <div class="stat-label">Bidang Minat</div>
+      </div>
+    </div>
+
+    <!-- FEATURES -->
+    <section>
+      <div class="section-title">
+        <h2>Mengapa Bergabung?</h2>
+        <div class="section-line"></div>
+        <span class="section-tag">FITUR</span>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🚀</div>
+          <h3>Workshop & Seminar</h3>
+          <p>Akses workshop eksklusif dengan mentor berpengalaman dari industri teknologi terkemuka.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🤝</div>
+          <h3>Networking</h3>
+          <p>Terhubung dengan sesama profesional dan pelajar yang memiliki visi serupa di dunia teknologi.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">💡</div>
+          <h3>Sharing Session</h3>
+          <p>Sesi berbagi pengetahuan rutin setiap minggu untuk terus mengasah skill teknis kamu.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- MEMBER TABLE -->
+    <section>
+      <div class="section-title">
+        <h2>Data Anggota</h2>
+        <div class="section-line"></div>
+        <span class="section-tag">ANGGOTA</span>
+      </div>
+      <div class="members-count">
+        Menampilkan <span id="table-count">0</span> anggota terdaftar
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Nama</th>
+              <th>Email</th>
+              <th>Bidang Minat</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="member-table-body">
+            <!-- Diisi oleh JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 <a href="./index.html">Tech Community</a> — Dibangun dengan ❤️ menggunakan HTML, CSS & JavaScript</p>
+  </footer>
+
+  <script>
+    // ============================================================
+    // DATA ANGGOTA — Array JavaScript (simulasi database)
+    // ============================================================
+
+    // Data statis awal
+    const INITIAL_MEMBERS = [
+      { nama: "Arya Dwi Putra",     email: "arya@email.com",   minat: "Web Development" },
+      { nama: "Siti Rahma",         email: "siti@email.com",   minat: "Data Science" },
+      { nama: "Bimo Aksara",        email: "bimo@email.com",   minat: "Cybersecurity" },
+      { nama: "Dewi Lestari",       email: "dewi@email.com",   minat: "UI/UX Design" },
+      { nama: "Fadhil Ramadhan",    email: "fadhil@email.com", minat: "Mobile Development" },
+      { nama: "Nadia Kusuma",       email: "nadia@email.com",  minat: "Artificial Intelligence" },
+    ];
+
+    // Array utama — gabungkan data awal + data dari form (disimpan di sessionStorage)
+    let members = [...INITIAL_MEMBERS];
+
+    const BADGE_MAP = {
+      "Web Development":      "badge-blue",
+      "Data Science":         "badge-purple",
+      "Cybersecurity":        "badge-yellow",
+      "UI/UX Design":         "badge-pink",
+      "Mobile Development":   "badge-green",
+      "Artificial Intelligence": "badge-blue",
+    };
+
+    // Ambil data tambahan dari sessionStorage (dari form.html)
+    function loadFromStorage() {
+      const saved = sessionStorage.getItem("tc_members");
+      if (saved) {
+        const extra = JSON.parse(saved);
+        members = [...INITIAL_MEMBERS, ...extra];
+      }
+    }
+
+    // Render tabel
+    function renderTable() {
+      const tbody = document.getElementById("member-table-body");
+      document.getElementById("table-count").textContent = members.length;
+      document.getElementById("stat-members").textContent = members.length + "+";
+
+      if (members.length === 0) {
+        tbody.innerHTML = `
+          <tr><td colspan="5" style="text-align:center;color:var(--muted);padding:2rem;">
+            Belum ada anggota.
+          </td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = members.map((m, i) => `
+        <tr>
+          <td style="color:var(--muted);font-family:var(--font-mono);font-size:0.8rem;">${String(i + 1).padStart(2, "0")}</td>
+          <td><strong>${escapeHtml(m.nama)}</strong></td>
+          <td style="font-family:var(--font-mono);font-size:0.82rem;color:var(--muted);">${escapeHtml(m.email)}</td>
+          <td><span class="badge ${BADGE_MAP[m.minat] || 'badge-blue'}">${escapeHtml(m.minat)}</span></td>
+          <td><span class="badge badge-green">✓ Aktif</span></td>
+        </tr>
+      `).join("");
+    }
+
+    // Escape HTML untuk keamanan
+    function escapeHtml(str) {
+      const div = document.createElement("div");
+      div.appendChild(document.createTextNode(str));
+      return div.innerHTML;
+    }
+
+    // Inisialisasi
+    loadFromStorage();
+    renderTable();
+  </script>
+
+</body>
+</html>
